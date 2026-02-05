@@ -66,12 +66,12 @@ const About = () => {
                             />
                         </h2>
 
-                        <p style={{ fontSize: '1.2rem', lineHeight: '1.8', opacity: 0.8, color: 'var(--text-muted)' }}>
-                            <EditableText
-                                value={about.description}
-                                onSave={(val) => handleAboutUpdate('description', val)}
-                            />
-                        </p>
+                        <EditableText
+                            tagName="p"
+                            style={{ fontSize: '1.2rem', lineHeight: '1.8', opacity: 0.8, color: 'var(--text-muted)' }}
+                            value={about.description}
+                            onSave={(val) => handleAboutUpdate('description', val)}
+                        />
 
                         <div style={{ marginTop: '3rem', display: 'flex', gap: '2rem' }}>
                             <div>

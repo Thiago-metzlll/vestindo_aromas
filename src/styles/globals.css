@@ -106,8 +106,8 @@ a {
     font-weight: 700;
     cursor: pointer;
     display: flex;
-    alignItems: center;
-    justifyContent: center;
+    align-items: center;
+    justify-content: center;
     gap: 10px;
     transition: all 0.3s;
 }
@@ -126,7 +126,7 @@ a {
     border-radius: 8px;
     cursor: pointer;
     display: flex;
-    alignItems: center;
+    align-items: center;
     gap: 10px;
     transition: 0.3s;
 }
@@ -257,7 +257,7 @@ a {
     }
 
     h2 {
-        fontSize: 2.5rem !important;
+        font-size: 2.5rem !important;
     }
 }
 

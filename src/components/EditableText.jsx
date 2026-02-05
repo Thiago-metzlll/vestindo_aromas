@@ -1,75 +1,87 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAdmin } from '../context/AdminContext';
-import { Check, X, Edit3 } from 'lucide-react';
+import { Edit2 } from 'lucide-react';
 
-const EditableText = ({ value, onSave, style, className }) => {
+const EditableText = ({ value, onSave, className, style, tagName = 'span' }) => {
     const { isAdmin } = useAdmin();
     const [isEditing, setIsEditing] = useState(false);
-    const [tempValue, setTempValue] = useState(value);
-    const inputRef = useRef(null);
+    const [currentValue, setCurrentValue] = useState(value);
 
     useEffect(() => {
-        setTempValue(value);
+        setCurrentValue(value);
     }, [value]);
 
-    useEffect(() => {
-        if (isEditing && inputRef.current) {
-            inputRef.current.focus();
+    const handleBlur = () => {
+        setIsEditing(false);
+        if (currentValue !== value) {
+            onSave(currentValue);
         }
-    }, [isEditing]);
-
-    const handleSave = () => {
-        onSave(tempValue);
-        setIsEditing(false);
     };
 
-    const handleCancel = () => {
-        setTempValue(value);
-        setIsEditing(false);
-    };
+    const Tag = tagName;
 
     if (!isAdmin) {
-        return <span style={style} className={className}>{value}</span>;
+        return <Tag className={className} style={style}>{value}</Tag>;
     }
 
     if (isEditing) {
         return (
-            <div className="editable-container" style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', width: '100%' }}>
-                <input
-                    ref={inputRef}
-                    value={tempValue}
-                    onChange={(e) => setTempValue(e.target.value)}
-                    onKeyDown={(e) => {
-                        if (e.key === 'Enter') handleSave();
-                        if (e.key === 'Escape') handleCancel();
-                    }}
-                    style={{
-                        ...style,
-                        background: 'rgba(255,255,255,0.1)',
-                        border: '1px solid var(--secondary-accent)',
-                        borderRadius: '4px',
-                        color: 'inherit',
-                        padding: '2px 5px',
-                        outline: 'none',
-                        width: '100%'
-                    }}
-                />
-                <button onClick={handleSave} style={{ background: 'none', border: 'none', color: '#4ade80', cursor: 'pointer' }}><Check size={16} /></button>
-                <button onClick={handleCancel} style={{ background: 'none', border: 'none', color: '#f87171', cursor: 'pointer' }}><X size={16} /></button>
+            <div className={`editable-container active ${className || ''}`} style={{ ...style, position: 'relative', width: '100%' }}>
+                {tagName === 'textarea' ? (
+                    <textarea
+                        style={{
+                            width: '100%',
+                            minHeight: '100px',
+                            background: 'rgba(255,255,255,0.1)',
+                            border: '1px solid var(--secondary-accent)',
+                            color: 'inherit',
+                            padding: '10px',
+                            borderRadius: '8px',
+                            outline: 'none'
+                        }}
+                        value={currentValue}
+                        onChange={(e) => setCurrentValue(e.target.value)}
+                        onBlur={handleBlur}
+                        autoFocus
+                    />
+                ) : (
+                    <input
+                        type="text"
+                        style={{
+                            width: '100%',
+                            background: 'rgba(255,255,255,0.1)',
+                            border: '1px solid var(--secondary-accent)',
+                            color: 'inherit',
+                            padding: '5px',
+                            borderRadius: '4px',
+                            outline: 'none'
+                        }}
+                        value={currentValue}
+                        onChange={(e) => setCurrentValue(e.target.value)}
+                        onBlur={handleBlur}
+                        autoFocus
+                    />
+                )}
             </div>
         );
     }
 
     return (
-        <span
-            className={`editable-text ${className || ''}`}
-            style={{ ...style, cursor: 'pointer', borderBottom: '1px dashed rgba(255,255,255,0.3)' }}
+        <div
+            className={`editable-container ${className || ''}`}
+            style={{ ...style, cursor: 'pointer', position: 'relative', display: 'inline-block' }}
             onClick={() => setIsEditing(true)}
-            title="Clique para editar"
         >
-            {value}
-            <Edit3 size={12} style={{ marginLeft: '5px', opacity: 0.5 }} />
-        </span>
+            <Tag>{value}</Tag>
+            <div className="edit-icon-hover" style={{
+                position: 'absolute',
+                top: '-5px',
+                right: '-20px',
+                opacity: 0.3
+            }}>
+                <Edit2 size={12} />
+            </div>
+        </div>
     );
 };
 
