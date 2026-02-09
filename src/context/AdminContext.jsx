@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { validatePassword } from '../utils/security';
 
 const AdminContext = createContext();
 
@@ -28,8 +29,9 @@ export const AdminProvider = ({ children }) => {
         localStorage.setItem('store_theme', newTheme);
     };
 
-    const login = (password) => {
-        if (password === 'admin123') {
+    const login = async (password) => {
+        const isValid = await validatePassword(password);
+        if (isValid) {
             setIsAdmin(true);
             return true;
         }

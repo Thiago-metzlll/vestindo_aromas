@@ -9,9 +9,9 @@ const AdminLogin = () => {
     const [error, setError] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const success = login(password);
+        const success = await login(password);
         if (success) {
             setPassword('');
             setShowLogin(false);
@@ -107,7 +107,7 @@ const AdminLogin = () => {
                                 </button>
 
                                 <p style={{ fontSize: '0.7rem', opacity: 0.5, textAlign: 'center', marginTop: '1.5rem' }}>
-                                    Dica: a senha padrão é admin123
+                                    Dica: a senha padrão é admin123 (criptografada com SHA-256)
                                 </p>
                             </form>
                         </motion.div>
