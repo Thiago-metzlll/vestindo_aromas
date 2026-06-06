@@ -25,6 +25,19 @@ function AppContent() {
                 color: 'white',
                 fontFamily: 'var(--font-body)'
             }}>
+                <img 
+                    src="/logo.png" 
+                    alt="Vestindo Aromas Logo" 
+                    style={{ 
+                        width: '80px', 
+                        height: '80px', 
+                        borderRadius: '50%', 
+                        objectFit: 'cover', 
+                        marginBottom: '1.5rem',
+                        border: '2px solid var(--secondary-accent, #D4AF37)',
+                        boxShadow: '0 0 20px rgba(212, 175, 55, 0.2)'
+                    }} 
+                />
                 <h1 style={{ 
                     fontFamily: 'var(--font-heading)', 
                     color: 'var(--secondary-accent)', 
@@ -51,9 +64,21 @@ function AppContent() {
                 <About />
                 <Contact />
             </main>
-            <footer style={{ padding: '3rem 0', textAlign: 'center', opacity: 0.5, fontSize: '0.8rem' }}>
-                <div className="container">
-                    <p>&copy; {new Date().getFullYear()} Vestindo Aromas. Todos os direitos reservados.</p>
+            <footer style={{ padding: '4rem 0 3rem', background: 'rgba(0, 0, 0, 0.2)', borderTop: '1px solid rgba(255,255,255,0.05)', textAlign: 'center', fontSize: '0.8rem' }}>
+                <div className="container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem' }}>
+                    <img 
+                        src="/logo.png" 
+                        alt="Vestindo Aromas Logo" 
+                        style={{ 
+                            width: '50px', 
+                            height: '50px', 
+                            borderRadius: '50%', 
+                            objectFit: 'cover',
+                            border: '1px solid rgba(255,255,255,0.1)',
+                            opacity: 0.8
+                        }} 
+                    />
+                    <p style={{ opacity: 0.5 }}>&copy; {new Date().getFullYear()} Vestindo Aromas. Todos os direitos reservados.</p>
                 </div>
             </footer>
 

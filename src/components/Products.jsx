@@ -4,7 +4,7 @@ import { useAdmin } from '../context/AdminContext';
 import { storeConfig } from '../data/storeConfig';
 import EditableText from './EditableText';
 import EditableImage from './EditableImage';
-import { ShoppingBag, Plus, X } from 'lucide-react';
+import { ShoppingBag, Plus, X, Search } from 'lucide-react';
 
 const Products = () => {
     const { 
@@ -23,12 +23,27 @@ const Products = () => {
     const activeTab = activeCategoryTab !== null ? activeCategoryTab : (categories[0]?.id ?? null);
     const setActiveTab = setActiveCategoryTab;
 
+    const [searchQuery, setSearchQuery] = useState('');
+
     // Normaliza categoryId para comparação segura
     const normalize = (val) => String(val ?? '').trim();
 
-    const filteredProducts = products.filter(
-        p => normalize(p.categoryId) === normalize(activeTab)
-    );
+    const filteredProducts = products.filter(p => {
+        const matchesQuery = searchQuery.trim() === '' || 
+            p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+            p.description.toLowerCase().includes(searchQuery.toLowerCase());
+        
+        if (searchQuery.trim() !== '') {
+            return matchesQuery;
+        }
+        
+        return normalize(p.categoryId) === normalize(activeTab) && matchesQuery;
+    });
+
+    const getProductCategoryTitle = (product) => {
+        const cat = categories.find(c => normalize(c.id) === normalize(product.categoryId));
+        return cat ? cat.title : '';
+    };
 
     const activeCategory = categories.find(c => normalize(c.id) === normalize(activeTab));
     const whatsapp = config.contact?.whatsapp?.replace('https://wa.me/', '') || '';
@@ -37,7 +52,7 @@ const Products = () => {
         <section id="catalogo" style={{ padding: '120px 0', background: 'var(--bg-secondary)' }}>
             <div className="container">
                 {/* Header */}
-                <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
+                <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
                     <span style={{
                         display: 'block',
                         fontSize: '0.75rem',
@@ -52,14 +67,104 @@ const Products = () => {
                     <h2 style={{ fontSize: '3rem', fontFamily: 'var(--font-heading)', marginBottom: '0.5rem' }}>
                         Descubra Cada Peça
                     </h2>
-                    <p style={{ opacity: 0.5, maxWidth: '500px', margin: '0 auto' }}>
+                    <p style={{ opacity: 0.5, maxWidth: '500px', margin: '0 auto 2rem' }}>
                         Navegue pelas categorias e encontre o produto ideal para você.
                     </p>
+
+                    {/* Search Bar */}
+                    <div style={{
+                        position: 'relative',
+                        maxWidth: '500px',
+                        margin: '0 auto 2rem',
+                        display: 'flex',
+                        alignItems: 'center'
+                    }}>
+                        <input
+                            id="product-search-input"
+                            type="text"
+                            placeholder="Buscar produtos ou fragrâncias..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            style={{
+                                width: '100%',
+                                padding: '0.9rem 1.2rem 0.9rem 3rem',
+                                borderRadius: '50px',
+                                border: '1px solid rgba(255,255,255,0.1)',
+                                background: 'rgba(255, 255, 255, 0.05)',
+                                color: 'white',
+                                outline: 'none',
+                                transition: 'all 0.3s',
+                                fontSize: '0.95rem',
+                                fontFamily: 'var(--font-body)'
+                            }}
+                            onFocus={(e) => {
+                                e.target.style.borderColor = 'var(--secondary-accent)';
+                                e.target.style.background = 'rgba(255, 255, 255, 0.08)';
+                                e.target.style.boxShadow = '0 0 15px rgba(212, 175, 55, 0.1)';
+                            }}
+                            onBlur={(e) => {
+                                e.target.style.borderColor = 'rgba(255,255,255,0.1)';
+                                e.target.style.background = 'rgba(255, 255, 255, 0.05)';
+                                e.target.style.boxShadow = 'none';
+                            }}
+                        />
+                        <Search
+                            size={18}
+                            style={{
+                                position: 'absolute',
+                                left: '1.2rem',
+                                opacity: 0.5,
+                                color: 'white',
+                                pointerEvents: 'none'
+                            }}
+                        />
+                        {searchQuery && (
+                            <button
+                                onClick={() => setSearchQuery('')}
+                                style={{
+                                    position: 'absolute',
+                                    right: '1.2rem',
+                                    background: 'transparent',
+                                    border: 'none',
+                                    color: 'white',
+                                    opacity: 0.5,
+                                    cursor: 'pointer',
+                                    padding: 0,
+                                    display: 'flex',
+                                    alignItems: 'center'
+                                }}
+                            >
+                                <X size={16} />
+                            </button>
+                        )}
+                    </div>
                 </div>
+
+                {/* Search query feedback */}
+                {searchQuery.trim() !== '' && (
+                    <div style={{ textAlign: 'center', marginBottom: '3rem', opacity: 0.7 }}>
+                        <p>Mostrando resultados para a busca por: <strong>{searchQuery}</strong></p>
+                        <button 
+                            onClick={() => setSearchQuery('')}
+                            style={{
+                                background: 'transparent',
+                                border: 'none',
+                                color: 'var(--secondary-accent)',
+                                textDecoration: 'underline',
+                                cursor: 'pointer',
+                                marginTop: '0.5rem',
+                                fontSize: '0.9rem',
+                                fontFamily: 'var(--font-body)'
+                            }}
+                        >
+                            Limpar busca e ver categorias
+                        </button>
+                    </div>
+                )}
 
                 {/* Category Tabs */}
                 <div style={{
-                    display: 'flex',
+                    display: searchQuery.trim() !== '' ? 'none' : 'flex',
                     gap: '0.75rem',
                     justifyContent: 'center',
                     flexWrap: 'wrap',
@@ -96,7 +201,7 @@ const Products = () => {
                 {/* Products Grid */}
                 <AnimatePresence mode="wait">
                     <motion.div
-                        key={activeTab}
+                        key={searchQuery.trim() !== '' ? 'search-results' : activeTab}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
@@ -169,7 +274,7 @@ const Products = () => {
                                         color: 'var(--secondary-accent)',
                                         fontWeight: '700'
                                     }}>
-                                        {activeCategory?.title}
+                                        {getProductCategoryTitle(product)}
                                     </span>
 
                                     {/* Name */}
@@ -303,7 +408,11 @@ const Products = () => {
                                 opacity: 0.4
                             }}>
                                 <ShoppingBag size={48} style={{ margin: '0 auto 1rem' }} />
-                                <p>Nenhum produto disponível nesta categoria no momento.</p>
+                                <p>
+                                    {searchQuery.trim() !== '' 
+                                        ? `Nenhum produto encontrado para "${searchQuery}".` 
+                                        : "Nenhum produto disponível nesta categoria no momento."}
+                                </p>
                             </div>
                         )}
                     </motion.div>

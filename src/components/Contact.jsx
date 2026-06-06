@@ -2,7 +2,15 @@ import React from 'react';
 import { useAdmin } from '../context/AdminContext';
 import { storeConfig } from '../data/storeConfig';
 import EditableText from './EditableText';
-import { Phone, Mail, MapPin, Instagram, MessageCircle } from 'lucide-react';
+import { Phone, Mail, MapPin, Instagram } from 'lucide-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+
+const byPrefixAndName = {
+    fab: {
+        whatsapp: faWhatsapp
+    }
+};
 
 const Contact = () => {
     const { tempConfig, updateConfig } = useAdmin();
@@ -156,42 +164,9 @@ const Contact = () => {
                                         e.currentTarget.style.boxShadow = 'none';
                                     }}
                                 >
-                                    <MessageCircle size={22} />
+                                    <FontAwesomeIcon icon={byPrefixAndName.fab['whatsapp']} size="lg" />
                                     Conversar pelo WhatsApp
                                 </button>
-
-                                <a
-                                    href={`mailto:${contact.email}?subject=Contato Site - Vestindo Aromas`}
-                                    className="btn-secondary"
-                                    style={{
-                                        width: '100%',
-                                        padding: '1.2rem',
-                                        fontSize: '1rem',
-                                        background: 'rgba(255, 255, 255, 0.05)',
-                                        color: 'white',
-                                        border: '1px solid rgba(255, 255, 255, 0.1)',
-                                        borderRadius: '8px',
-                                        cursor: 'pointer',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        gap: '12px',
-                                        textDecoration: 'none',
-                                        fontWeight: 600,
-                                        transition: 'background 0.2s, transform 0.2s'
-                                    }}
-                                    onMouseEnter={(e) => {
-                                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
-                                        e.currentTarget.style.transform = 'translateY(-2px)';
-                                    }}
-                                    onMouseLeave={(e) => {
-                                        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)';
-                                        e.currentTarget.style.transform = 'translateY(0)';
-                                    }}
-                                >
-                                    <Mail size={22} />
-                                    Enviar um E-mail
-                                </a>
                             </div>
                         </div>
                     </div>
