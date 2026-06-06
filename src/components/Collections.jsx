@@ -33,9 +33,9 @@ const Collections = () => {
                     <p style={{ opacity: 0.6, maxWidth: '600px', margin: '0 auto' }}>Curadoria exclusiva das melhores marcas e fragrâncias do mundo.</p>
                 </div>
 
-                <div style={{
+                <div className="collections-grid" style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
                     gap: '2.5rem'
                 }}>
                     {categories.map((category) => (

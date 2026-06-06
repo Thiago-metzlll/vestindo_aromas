@@ -18,29 +18,30 @@ const Navbar = () => {
             top: 0,
             left: 0,
             width: '100%',
-            padding: '1.5rem 0',
-            background: 'rgba(0,0,0,0.3)',
+            padding: '0.9rem 0',
+            background: 'rgba(0,0,0,0.45)',
             backdropFilter: 'blur(20px)',
             zIndex: 1000,
             borderBottom: '1px solid rgba(255,255,255,0.05)'
         }}>
-            <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-                    <Menu className="mobile-only" size={24} />
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
+            <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
+                    <Menu className="mobile-only" size={22} style={{ flexShrink: 0 }} />
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', overflow: 'hidden' }}>
                         <img 
                             src="/logo.png" 
                             alt={`${config.name} Logo`} 
                             style={{ 
-                                width: '36px', 
-                                height: '36px', 
+                                width: '30px', 
+                                height: '30px', 
                                 borderRadius: '50%', 
                                 objectFit: 'cover',
                                 border: '1.5px solid var(--secondary-accent, #D4AF37)',
-                                boxShadow: '0 2px 8px rgba(0,0,0,0.3)'
+                                boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+                                flexShrink: 0
                             }} 
                         />
-                        <h1 style={{ fontSize: '1.35rem', fontWeight: '800', letterSpacing: '2px', textTransform: 'uppercase', margin: 0 }}>
+                        <h1 style={{ fontSize: 'clamp(0.75rem, 3.5vw, 1.2rem)', fontWeight: '800', letterSpacing: '1.5px', textTransform: 'uppercase', margin: 0, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                             <EditableText
                                 value={config.name}
                                 onSave={(val) => handleUpdate('name', val)}
@@ -57,9 +58,9 @@ const Navbar = () => {
                     <a href="#contato" className="nav-link">Contato</a>
                 </div>
 
-                <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexShrink: 0 }}>
                     <Search 
-                        size={20} 
+                        size={18} 
                         style={{ cursor: 'pointer', opacity: 0.7 }} 
                         onClick={() => {
                             const searchInput = document.getElementById('product-search-input');
@@ -68,20 +69,16 @@ const Navbar = () => {
                                 searchInput.focus();
                             } else {
                                 const catalog = document.getElementById('catalogo');
-                                if (catalog) {
-                                    catalog.scrollIntoView({ behavior: 'smooth' });
-                                }
+                                if (catalog) catalog.scrollIntoView({ behavior: 'smooth' });
                             }
                         }}
                     />
                     <ShoppingBag 
-                        size={20} 
+                        size={18} 
                         style={{ cursor: 'pointer', opacity: 0.7 }} 
                         onClick={() => {
                             const catalog = document.getElementById('catalogo');
-                            if (catalog) {
-                                catalog.scrollIntoView({ behavior: 'smooth' });
-                            }
+                            if (catalog) catalog.scrollIntoView({ behavior: 'smooth' });
                         }}
                     />
                 </div>

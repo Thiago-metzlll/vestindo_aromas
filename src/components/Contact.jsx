@@ -31,7 +31,7 @@ const Contact = () => {
     return (
         <section id="contato" style={{ padding: '120px 0', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
             <div className="container">
-                <div style={{
+                <div className="contact-grid" style={{
                     display: 'grid',
                     gridTemplateColumns: '1fr 1fr',
                     gap: '6rem',

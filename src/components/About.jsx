@@ -19,7 +19,7 @@ const About = () => {
     return (
         <section id="sobre" style={{ padding: '120px 0', background: 'var(--bg-secondary)' }}>
             <div className="container">
-                <div style={{
+                <div className="about-grid" style={{
                     display: 'grid',
                     gridTemplateColumns: '1fr 1fr',
                     gap: '5rem',
