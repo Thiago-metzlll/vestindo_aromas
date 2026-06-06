@@ -5,16 +5,22 @@ import { Edit2 } from 'lucide-react';
 const EditableText = ({ value, onSave, className, style, tagName = 'span' }) => {
     const { isAdmin } = useAdmin();
     const [isEditing, setIsEditing] = useState(false);
-    const [currentValue, setCurrentValue] = useState(value);
+    const [currentValue, setCurrentValue] = useState(value || '');
 
     useEffect(() => {
-        setCurrentValue(value);
+        setCurrentValue(value || '');
     }, [value]);
 
     const handleBlur = () => {
         setIsEditing(false);
-        if (currentValue !== value) {
+        if (currentValue !== (value || '')) {
             onSave(currentValue);
+        }
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            handleBlur();
         }
     };
 
@@ -59,6 +65,7 @@ const EditableText = ({ value, onSave, className, style, tagName = 'span' }) => 
                         value={currentValue}
                         onChange={(e) => setCurrentValue(e.target.value)}
                         onBlur={handleBlur}
+                        onKeyDown={handleKeyDown}
                         autoFocus
                     />
                 )}
@@ -70,7 +77,10 @@ const EditableText = ({ value, onSave, className, style, tagName = 'span' }) => 
         <div
             className={`editable-container ${className || ''}`}
             style={{ ...style, cursor: 'pointer', position: 'relative', display: 'inline-block' }}
-            onClick={() => setIsEditing(true)}
+            onClick={(e) => {
+                e.stopPropagation();
+                setIsEditing(true);
+            }}
         >
             <Tag>{value}</Tag>
             <div className="edit-icon-hover" style={{

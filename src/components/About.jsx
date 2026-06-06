@@ -3,9 +3,10 @@ import { motion } from 'framer-motion';
 import { useAdmin } from '../context/AdminContext';
 import { storeConfig } from '../data/storeConfig';
 import EditableText from './EditableText';
+import EditableImage from './EditableImage';
 
 const About = () => {
-    const { tempConfig, updateConfig } = useAdmin();
+    const { tempConfig, updateConfig, isAdmin } = useAdmin();
     const config = tempConfig || storeConfig;
     const { about } = config;
 
@@ -36,10 +37,11 @@ const About = () => {
                             aspectRatio: '1',
                             boxShadow: '0 30px 60px rgba(0,0,0,0.5)'
                         }}>
-                            <img
+                            <EditableImage
                                 src={about.image}
                                 alt="Sobre nós"
-                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                isEditing={isAdmin}
+                                onSave={(val) => handleAboutUpdate('image', val)}
                             />
                         </div>
                     </motion.div>

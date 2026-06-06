@@ -11,55 +11,35 @@ npm run dev
 
 ## 🔐 Configuração
 
-### 1. Variáveis de Ambiente
+O projeto foi simplificado e não utiliza mais arquivos `.env`. Toda a configuração e dados do site são consumidos e salvos diretamente no Google Sheets.
 
-Copie o arquivo `.env.example` para `.env`:
-
-```bash
-cp .env.example .env
-```
-
-### 2. Configure o Web3Forms (Formulário de Contato)
-
-1. Acesse [https://web3forms.com](https://web3forms.com)
-2. Crie uma conta gratuita
-3. Crie um novo formulário
-4. Copie o **Access Key** fornecido
-5. Cole no arquivo `.env` na variável `VITE_WEB3FORMS_KEY`
-
-```env
-VITE_WEB3FORMS_KEY=sua-chave-aqui
-```
-
-### 3. Alterar a Senha do Admin (Opcional)
+### 1. Alterar a Senha do Admin (Opcional)
 
 **Senha padrão:** `admin123`
 
-Para alterar a senha:
+Para alterar a senha de acesso ao Painel Admin:
 
-1. Acesse [https://emn178.github.io/online-tools/sha256.html](https://emn178.github.io/online-tools/sha256.html)
-2. Digite sua nova senha
-3. Copie o hash SHA-256 gerado
-4. Atualize no arquivo `.env`:
+1. Abra o arquivo `src/utils/security.js`
+2. Altere o valor da constante `ADMIN_PASSWORD`:
+   ```javascript
+   const ADMIN_PASSWORD = "sua-nova-senha-aqui";
+   ```
 
-```env
-VITE_ADMIN_PASSWORD_HASH=seu-hash-aqui
-```
+### 2. Configure o WhatsApp
 
-### 4. Configure o WhatsApp
-
-No arquivo `src/data/storeConfig.js`, atualize o número do WhatsApp:
+No arquivo `src/data/storeConfig.js` ou diretamente pelo Painel Admin no site (salvando na planilha), atualize as informações de contato:
 
 ```javascript
 contact: {
+    phone: "(11) 99999-9999",
     whatsapp: "https://wa.me/5511999999999", // Formato: 55 + DDD + número
 }
 ```
 
 ## 📋 Funcionalidades
 
-✅ **Hash de Senha Seguro** - Senha criptografada com SHA-256  
-✅ **Web3Forms** - Formulário de contato sem backend  
+✅ **Painel Admin Integrado** - Autenticação simples e segura  
+✅ **Contato Rápido** - Integração direta com WhatsApp e E-mail  
 ✅ **WhatsApp Integrado** - Botão de contato direto  
 ✅ **Painel Admin** - Edição de conteúdo em tempo real  
 ✅ **Tema Dark/Light** - Alternância de temas  
@@ -74,12 +54,7 @@ Para acessar o painel admin:
 3. Edite os textos clicando neles
 4. As alterações são salvas automaticamente no navegador
 
-## 📧 Como o Formulário Funciona
 
-1. O usuário preenche o formulário
-2. Os dados são enviados diretamente para o Web3Forms
-3. Você recebe um email com as informações
-4. Tudo sem precisar de backend próprio!
 
 ## 🛠️ Tecnologias
 
@@ -87,8 +62,7 @@ Para acessar o painel admin:
 - **Vite** - Build tool rápido
 - **Framer Motion** - Animações suaves
 - **Lucide React** - Ícones modernos
-- **Web3Forms** - Envio de emails sem backend
-- **SHA-256** - Criptografia de senha
+- **Google Sheets API** - Sincronização em tempo real de produtos e conteúdos
 
 ## 📱 Responsividade
 
@@ -99,11 +73,6 @@ A landing page é responsiva e funciona em:
 
 ## 🔒 Segurança
 
-- Senha admin criptografada com SHA-256
-- Variáveis de ambiente (nunca commit .env)
-- Validação de formulário
-- Proteção contra spam no Web3Forms
+- Acesso administrativo simplificado
+- Validação de formulários e campos no Painel Admin
 
-## 📝 Licença
-
-Este projeto é privado e proprietário.

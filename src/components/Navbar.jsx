@@ -38,7 +38,7 @@ const Navbar = () => {
                 <div className="desktop-only" style={{ display: 'flex', gap: '3rem', fontSize: '0.9rem', fontWeight: '500', textTransform: 'uppercase', letterSpacing: '1px' }}>
                     <a href="#inicio" className="nav-link">Início</a>
                     <a href="#colecoes" className="nav-link">Coleções</a>
-                    <a href="#fragrancias" className="nav-link">Fragrâncias</a>
+                    <a href="#catalogo" className="nav-link">Catálogo</a>
                     <a href="#sobre" className="nav-link">Sobre</a>
                     <a href="#contato" className="nav-link">Contato</a>
                 </div>

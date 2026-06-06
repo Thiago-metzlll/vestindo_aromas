@@ -3,10 +3,11 @@ import { motion } from 'framer-motion';
 import { useAdmin } from '../context/AdminContext';
 import { storeConfig } from '../data/storeConfig';
 import EditableText from './EditableText';
+import EditableImage from './EditableImage';
 import { ChevronDown } from 'lucide-react';
 
 const Hero = () => {
-    const { tempConfig, updateConfig } = useAdmin();
+    const { tempConfig, updateConfig, isAdmin } = useAdmin();
     const config = tempConfig || storeConfig;
     const { hero } = config;
 
@@ -34,12 +35,17 @@ const Hero = () => {
                 left: 0,
                 width: '100%',
                 height: '100%',
-                backgroundImage: `url(${hero.bgImage})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
                 zIndex: -2,
-                transform: 'scale(1.1)'
-            }} />
+                transform: 'scale(1.05)'
+            }}>
+                <EditableImage
+                    src={hero.bgImage}
+                    alt="Background Hero"
+                    isEditing={isAdmin}
+                    onSave={(val) => handleHeroUpdate('bgImage', val)}
+                    className="hover-zoom"
+                />
+            </div>
             <div style={{
                 position: 'absolute',
                 top: 0,
