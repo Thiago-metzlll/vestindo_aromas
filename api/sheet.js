@@ -24,20 +24,20 @@ export default async function handler(req, res) {
     }
 
     try {
-        const response = await fetch(url, {
-            headers: {
-                // Simula um browser para evitar redirecionamentos do Google
-                'User-Agent': 'Mozilla/5.0 (compatible; VestindoAromas/1.0)',
-                'Accept': 'text/csv,text/plain,*/*',
-            },
-            redirect: 'follow',
-        });
+        const response = await fetch(url, { redirect: 'follow' });
 
         // Se o Google redirecionou para login, a aba não está publicada
         if (response.url && response.url.includes('accounts.google.com')) {
             return res.status(403).json({
                 error: 'Planilha não está publicada publicamente.',
                 hint: 'Vá em Arquivo → Compartilhar → Publicar na web → selecione "Documento inteiro".'
+            });
+        }
+
+        if (response.status === 401 || response.status === 403) {
+            return res.status(403).json({
+                error: `Google retornou ${response.status} — aba não está publicada publicamente.`,
+                hint: 'No Google Sheets: Arquivo → Compartilhar → Publicar na web → "Documento inteiro" → Publicar.'
             });
         }
 
