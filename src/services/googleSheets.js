@@ -2,20 +2,37 @@
  * Utilitário para buscar dados do Google Sheets
  * A aba deve estar "Publicada na Web" como CSV
  */
+
+// Em produção usa o proxy da Vercel para evitar CORS.
+// Em desenvolvimento local acessa diretamente (sem restrições de CORS).
+const isDev = import.meta.env.DEV;
+
+const buildFetchUrl = (sheetUrl) => {
+    if (isDev) {
+        // Dev: acesso direto com cache-busting
+        return `${sheetUrl}${sheetUrl.includes('?') ? '&' : '?'}_t=${Date.now()}`;
+    }
+    // Produção: passa pelo proxy serverless da Vercel
+    return `/api/sheet?url=${encodeURIComponent(sheetUrl)}`;
+};
+
 export const fetchGoogleSheetData = async (sheetUrl) => {
     if (!sheetUrl) return [];
     try {
-        // Timestamp e semente aleatória para evitar cache do browser e do CDN do Google
-        const bustUrl = `${sheetUrl}${sheetUrl.includes('?') ? '&' : '?'}_t=${Date.now()}&v=${Math.random().toString(36).substring(7)}`;
-        console.log("Buscando dados em:", bustUrl);
+        const fetchUrl = buildFetchUrl(sheetUrl);
+        console.log("Buscando dados em:", fetchUrl);
         
-        const response = await fetch(bustUrl, { 
-            cache: 'no-store'
-        });
+        const response = await fetch(fetchUrl, { cache: 'no-store' });
+        
+        // Se o Google redirecionou para login, a aba não está publicada publicamente
+        if (response.url && response.url.includes('accounts.google.com')) {
+            throw new Error('Planilha não está publicada publicamente. Vá em Arquivo → Compartilhar → Publicar na web → selecione "Documento inteiro".');
+        }
         
         if (!response.ok) {
             throw new Error(`Erro HTTP: ${response.status}`);
         }
+
 
         const csvText = await response.text();
 
