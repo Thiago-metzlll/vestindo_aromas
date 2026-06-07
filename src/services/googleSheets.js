@@ -21,14 +21,14 @@ export const fetchGoogleSheetData = async (sheetUrl) => {
     try {
         const fetchUrl = buildFetchUrl(sheetUrl);
         console.log("Buscando dados em:", fetchUrl);
-        
+
         const response = await fetch(fetchUrl, { cache: 'no-store' });
-        
+
         // Se o Google redirecionou para login, a aba não está publicada publicamente
         if (response.url && response.url.includes('accounts.google.com')) {
             throw new Error('Planilha não está publicada publicamente. Vá em Arquivo → Compartilhar → Publicar na web → selecione "Documento inteiro".');
         }
-        
+
         if (!response.ok) {
             throw new Error(`Erro HTTP: ${response.status}`);
         }
@@ -47,7 +47,7 @@ export const fetchGoogleSheetData = async (sheetUrl) => {
         // Detecta o separador (vírgula ou ponto-e-vírgula) baseado na primeira linha
         const firstLine = lines[0];
         const separator = firstLine.includes(';') && !firstLine.includes(',') ? ';' : ',';
-        
+
         const firstCols = splitCsvLine(firstLine, separator);
 
         // Detecta se é planilha de CATEGORIAS (cabeçalho tem "id", "title" ou "titulo")
@@ -75,15 +75,15 @@ export const fetchGoogleSheetData = async (sheetUrl) => {
             // Planilha de conteúdo: formato chave/valor
             return lines.map(line => {
                 const cols = splitCsvLine(line, separator);
-                
+
                 // Encontra o primeiro índice que tem algo (chave)
                 const chaveIdx = cols.findIndex(c => c && c.trim() !== '');
                 if (chaveIdx === -1) return null;
-                
+
                 // O valor deve estar na próxima coluna
                 let valorIdx = cols.findIndex((c, i) => i > chaveIdx && c && c.trim() !== '');
                 if (valorIdx === -1) valorIdx = chaveIdx + 1;
-                
+
                 const chave = cols[chaveIdx]?.trim() || '';
                 const valor = cols[valorIdx]?.trim() || '';
 
@@ -104,7 +104,7 @@ function splitCsvLine(line, separator = ',') {
     const result = [];
     let current = '';
     let inQuotes = false;
-    
+
     for (let i = 0; i < line.length; i++) {
         const ch = line[i];
         if (ch === '"') {
@@ -126,16 +126,16 @@ function splitCsvLine(line, separator = ',') {
  */
 export const parseGlobalContent = (data) => {
     const content = {};
-    
+
     data.forEach(item => {
         if (!item.chave) return;
-        
+
         const chave = item.chave.trim();
         const valor = item.valor.trim();
 
         // Tenta separar em seção_chave (ex: hero_title)
         const parts = chave.split('_');
-        
+
         if (parts.length >= 2) {
             const section = parts[0];
             const key = parts.slice(1).join('_');
@@ -156,7 +156,7 @@ export const parseGlobalContent = (data) => {
  */
 export const contentToRows = (content) => {
     const rows = [];
-    
+
     // Chaves raiz simples
     const rootKeys = ['name', 'title', 'tagline'];
     rootKeys.forEach(key => {

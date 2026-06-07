@@ -23,8 +23,21 @@ export default async function handler(req, res) {
         return res.status(403).json({ error: 'URL não permitida.' });
     }
 
+    // Headers que imitam um navegador real para evitar bloqueio do Google
+    const browserHeaders = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7',
+        'Accept-Encoding': 'gzip, deflate, br',
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache',
+    };
+
     try {
-        const response = await fetch(url, { redirect: 'follow' });
+        const response = await fetch(url, {
+            redirect: 'follow',
+            headers: browserHeaders,
+        });
 
         // Se o Google redirecionou para login, a aba não está publicada
         if (response.url && response.url.includes('accounts.google.com')) {
