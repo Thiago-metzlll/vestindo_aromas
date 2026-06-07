@@ -2,7 +2,7 @@ import React from 'react';
 import { useAdmin } from '../context/AdminContext';
 import { storeConfig } from '../data/storeConfig';
 import EditableText from './EditableText';
-import { ShoppingBag, Search, Menu } from 'lucide-react';
+import { Search, Menu } from 'lucide-react';
 
 const Navbar = () => {
     const { tempConfig, updateConfig } = useAdmin();
@@ -73,14 +73,7 @@ const Navbar = () => {
                             }
                         }}
                     />
-                    <ShoppingBag 
-                        size={18} 
-                        style={{ cursor: 'pointer', opacity: 0.7 }} 
-                        onClick={() => {
-                            const catalog = document.getElementById('catalogo');
-                            if (catalog) catalog.scrollIntoView({ behavior: 'smooth' });
-                        }}
-                    />
+
                 </div>
             </div>
         </nav>

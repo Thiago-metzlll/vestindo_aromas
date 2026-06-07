@@ -91,7 +91,7 @@ const Hero = () => {
                     </p>
 
                     <div style={{ display: 'flex', gap: '1.5rem', justifyContent: 'center' }}>
-                        <button className="btn-primary" style={{ padding: '1.2rem 2.5rem', borderRadius: '50px' }}>
+                        <button className="btn-primary" style={{ padding: '1.2rem 2.5rem', borderRadius: '50px' }} onClick={() => { const el = document.getElementById('catalogo'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }}>
                             <EditableText
                                 value={hero.cta}
                                 onSave={(val) => handleHeroUpdate('cta', val)}
