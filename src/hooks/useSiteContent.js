@@ -7,17 +7,15 @@ const CONTENT_CACHE_KEY = 'vestindoAromasContentCache';
 const CONFIG_CACHE_KEY = 'vestindoAromasSheetConfig';
 
 // Utilitário para merge profundo de objetos simples
+// source (planilha) sempre tem prioridade sobre target (cache/defaults)
 const deepMerge = (target, source) => {
     const output = { ...target };
     if (source && typeof source === 'object') {
         Object.keys(source).forEach(key => {
             if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
-                if (!(key in target)) {
-                    output[key] = source[key];
-                } else {
-                    output[key] = deepMerge(target[key], source[key]);
-                }
-            } else {
+                output[key] = deepMerge(target[key] || {}, source[key]);
+            } else if (source[key] !== undefined && source[key] !== '') {
+                // Sobrescreve sempre que a planilha trouxer um valor não-vazio
                 output[key] = source[key];
             }
         });
@@ -126,8 +124,10 @@ export const useSiteContent = () => {
 
         if (hasChanges) {
             setContent(prev => {
+                // Planilha sempre sobrescreve — começa do default e aplica dados da planilha por cima
                 let updated = { ...prev };
                 if (sheetParsedContent) {
+                    // deepMerge com source = planilha, que tem prioridade
                     updated = deepMerge(updated, sheetParsedContent);
                 }
                 if (sheetCategories) {
@@ -139,10 +139,10 @@ export const useSiteContent = () => {
                 // Garante que a config nunca seja sobrescrita pela planilha
                 updated.config = prev.config;
 
-                // Salva no localStorage para persistir entre reloads
+                // Atualiza o cache com os dados mais recentes da planilha
                 try {
                     const toCache = { ...updated };
-                    delete toCache.config; // config é gerenciada separadamente
+                    delete toCache.config;
                     localStorage.setItem(CONTENT_CACHE_KEY, JSON.stringify(toCache));
                 } catch (e) { /* ignora */ }
 
