@@ -14,7 +14,14 @@ export default function EditableImage({
     const [tab, setTab] = useState('url'); // 'url' | 'file'
 
     if (!isEditing) {
-        return src ? <img src={src} alt={alt} className={className} /> : null;
+        return src ? (
+            <img
+                src={src}
+                alt={alt}
+                className={className}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            />
+        ) : null;
     }
 
     const handleFileUpload = (e) => {
