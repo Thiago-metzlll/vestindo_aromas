@@ -21,7 +21,7 @@ const Contact = () => {
     const handleContactUpdate = (field, value) => {
         const newConfig = { ...config };
         newConfig.contact = { ...newConfig.contact, [field]: value };
-        
+
         if (field === 'phone') {
             const cleanNumber = value.replace(/\D/g, '');
             if (cleanNumber) {
@@ -32,7 +32,7 @@ const Contact = () => {
                 newConfig.contact.whatsapp = `https://wa.me/${targetNumber}`;
             }
         }
-        
+
         updateConfig(newConfig);
     };
 
@@ -58,11 +58,11 @@ const Contact = () => {
                     maxWidth: '600px',
                     margin: '0 auto'
                 }}>
-                    <div className="glass-card" style={{ 
-                        padding: '4rem', 
-                        display: 'flex', 
-                        flexDirection: 'column', 
-                        justifyContent: 'center', 
+                    <div className="glass-card" style={{
+                        padding: '4rem',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
                         alignItems: 'center',
                         background: 'linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%)',
                         border: '1px solid rgba(255,255,255,0.05)',
@@ -93,7 +93,7 @@ const Contact = () => {
                                         width: '100%',
                                         padding: '1.2rem',
                                         fontSize: '1rem',
-                                        background: 'linear-gradient(135deg, #ec4899 0%, #be185d 100%)',
+                                        background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)',
                                         color: 'white',
                                         border: 'none',
                                         borderRadius: '8px',
@@ -107,7 +107,7 @@ const Contact = () => {
                                     }}
                                     onMouseEnter={(e) => {
                                         e.currentTarget.style.transform = 'translateY(-2px)';
-                                        e.currentTarget.style.boxShadow = '0 8px 20px rgba(37, 211, 102, 0.2)';
+                                        e.currentTarget.style.boxShadow = '0 8px 20px rgba(37, 211, 102, 0.4)';
                                     }}
                                     onMouseLeave={(e) => {
                                         e.currentTarget.style.transform = 'translateY(0)';
@@ -151,14 +151,14 @@ const Contact = () => {
                                 </button>
                             </div>
 
-                            <div style={{ 
-                                marginTop: '2.5rem', 
-                                paddingTop: '2.5rem', 
-                                borderTop: '1px solid rgba(255,255,255,0.05)', 
-                                display: 'flex', 
-                                flexDirection: 'column', 
-                                gap: '1rem', 
-                                alignItems: 'center' 
+                            <div style={{
+                                marginTop: '2.5rem',
+                                paddingTop: '2.5rem',
+                                borderTop: '1px solid rgba(255,255,255,0.05)',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '1rem',
+                                alignItems: 'center'
                             }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', opacity: 0.6, fontSize: '0.95rem' }}>
                                     <Mail size={16} />

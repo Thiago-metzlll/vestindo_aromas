@@ -329,7 +329,7 @@ const Products = () => {
                                                     display: 'flex',
                                                     alignItems: 'center',
                                                     gap: '6px',
-                                                    background: 'linear-gradient(135deg, #25D366, #128C7E)',
+                                                    background: 'linear-gradient(135deg, #f472b6 0%, #ec4899 50%, #be185d 100%)',
                                                     color: 'white',
                                                     padding: '0.55rem 1.1rem',
                                                     borderRadius: '50px',
@@ -342,7 +342,7 @@ const Products = () => {
                                                 }}
                                                 onMouseEnter={e => {
                                                     e.currentTarget.style.transform = 'translateY(-2px)';
-                                                    e.currentTarget.style.boxShadow = '0 6px 16px rgba(37,211,102,0.35)';
+                                                    e.currentTarget.style.boxShadow = '0 6px 16px rgba(236,72,153,0.4)';
                                                 }}
                                                 onMouseLeave={e => {
                                                     e.currentTarget.style.transform = 'translateY(0)';
