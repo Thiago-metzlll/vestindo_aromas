@@ -349,7 +349,6 @@ const Products = () => {
                                                     e.currentTarget.style.boxShadow = 'none';
                                                 }}
                                             >
-                                                <ShoppingBag size={14} />
                                                 Comprar
                                             </a>
                                         )}

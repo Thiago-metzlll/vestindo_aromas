@@ -4,7 +4,7 @@ import { Lock, LogIn, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const AdminLogin = () => {
-    const { login, isAdmin } = useAdmin();
+    const { login, isAdmin, setIsAdmin } = useAdmin();
     const [password, setPassword] = useState('');
     const [error, setError] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
@@ -35,7 +35,13 @@ const AdminLogin = () => {
                     cursor: 'pointer',
                     zIndex: 9999
                 }}
-                onClick={() => setShowLogin(true)}
+                onClick={() => {
+                    if (localStorage.getItem('isAdminAuthenticated') === 'true') {
+                        setIsAdmin(true);
+                    } else {
+                        setShowLogin(true);
+                    }
+                }}
                 title="Admin Access"
             >
                 <Lock size={14} />

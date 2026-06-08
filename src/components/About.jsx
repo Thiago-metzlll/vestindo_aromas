@@ -75,20 +75,7 @@ const About = () => {
                             onSave={(val) => handleAboutUpdate('description', val)}
                         />
 
-                        <div style={{ marginTop: '3rem', display: 'flex', gap: '2rem' }}>
-                            <div>
-                                <h4 style={{ fontSize: '2rem', color: 'var(--secondary-accent)' }}>10+</h4>
-                                <p style={{ fontSize: '0.9rem', opacity: 0.6 }}>Anos de Luxo</p>
-                            </div>
-                            <div>
-                                <h4 style={{ fontSize: '2rem', color: 'var(--secondary-accent)' }}>500+</h4>
-                                <p style={{ fontSize: '0.9rem', opacity: 0.6 }}>Fragrâncias</p>
-                            </div>
-                            <div>
-                                <h4 style={{ fontSize: '2rem', color: 'var(--secondary-accent)' }}>1k+</h4>
-                                <p style={{ fontSize: '0.9rem', opacity: 0.6 }}>Clientes Felizes</p>
-                            </div>
-                        </div>
+
                     </motion.div>
                 </div>
             </div>

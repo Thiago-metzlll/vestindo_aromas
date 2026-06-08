@@ -93,7 +93,7 @@ const Contact = () => {
                                         width: '100%',
                                         padding: '1.2rem',
                                         fontSize: '1rem',
-                                        background: 'linear-gradient(135deg, #25D366 0%, #128C7E 100%)',
+                                        background: 'linear-gradient(135deg, #ec4899 0%, #be185d 100%)',
                                         color: 'white',
                                         border: 'none',
                                         borderRadius: '8px',

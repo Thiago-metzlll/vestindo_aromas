@@ -43,11 +43,17 @@ export const AdminProvider = ({ children }) => {
         }
     };
 
+    const exitEditMode = () => {
+        setIsAdmin(false);
+    };
+
     return (
         <AdminContext.Provider value={{ 
             isAdmin, 
+            setIsAdmin,
             login, 
             logout, 
+            exitEditMode,
             theme, 
             toggleTheme, 
             activeCategoryTab,

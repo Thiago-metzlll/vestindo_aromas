@@ -45,11 +45,12 @@ function AppContent() {
                     textTransform: 'uppercase', 
                     fontSize: '2rem', 
                     marginBottom: '10px',
-                    fontWeight: '300'
+                    fontWeight: '300',
+                    textAlign: 'center'
                 }}>
                     Vestindo Aromas
                 </h1>
-                <p style={{ letterSpacing: '0.1em', fontSize: '0.8rem', opacity: 0.6 }}>Carregando conteúdo...</p>
+                <p style={{ letterSpacing: '0.1em', fontSize: '0.8rem', opacity: 0.6, textAlign: 'center' }}>Carregando conteúdo...</p>
             </div>
         );
     }

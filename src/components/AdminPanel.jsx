@@ -8,6 +8,7 @@ const AdminPanel = () => {
     const { 
         isAdmin, 
         logout, 
+        exitEditMode,
         theme, 
         toggleTheme,
         content,
@@ -71,13 +72,6 @@ const AdminPanel = () => {
                     >
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
                             <h3 style={{ fontFamily: 'var(--font-heading)', color: 'var(--secondary-accent)' }}>Gerenciamento</h3>
-                            <button
-                                onClick={toggleTheme}
-                                style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '5px', color: 'var(--secondary-accent)' }}
-                                title="Trocar Tema"
-                            >
-                                {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-                            </button>
                         </div>
 
                         {lastSync && (
@@ -101,7 +95,7 @@ const AdminPanel = () => {
                                 className="btn-primary" 
                                 onClick={saveContent} 
                                 disabled={isSaving}
-                                style={{ background: '#15803d', color: 'white', opacity: isSaving ? 0.7 : 1 }}
+                                style={{ background: 'linear-gradient(135deg, #ec4899 0%, #be185d 100%)', color: 'white', opacity: isSaving ? 0.7 : 1, border: 'none' }}
                             >
                                 <Save size={18} />
                                 {isSaving ? 'Salvando...' : 'Salvar na Planilha'}
@@ -117,102 +111,14 @@ const AdminPanel = () => {
                             </button>
                         </div>
 
-                        {/* Configuração de URLs */}
-                        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '0.75rem' }}>
-                            <button
-                                onClick={() => setShowConfigUrls(!showConfigUrls)}
-                                className="btn-outline"
-                                style={{
-                                    width: '100%',
-                                    fontSize: '0.75rem',
-                                    justifyContent: 'center',
-                                    borderColor: showConfigUrls ? 'var(--secondary-accent)' : 'var(--glass-border)',
-                                    color: showConfigUrls ? 'var(--secondary-accent)' : 'inherit'
-                                }}
+                        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '0.5rem', display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.5rem' }}>
+                            <button 
+                                className="btn-outline" 
+                                onClick={exitEditMode} 
+                                style={{ width: '100%', justifyContent: 'center', color: '#facc15', borderColor: 'rgba(250, 204, 21, 0.3)' }}
                             >
-                                <Database size={16} />
-                                {showConfigUrls ? 'Fechar URLs' : 'Configurar Planilha'}
+                                Sair do Modo Edição
                             </button>
-
-                            <AnimatePresence>
-                                {showConfigUrls && (
-                                    <motion.div
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{ height: 'auto', opacity: 1 }}
-                                        exit={{ height: 0, opacity: 0 }}
-                                        style={{ overflow: 'hidden' }}
-                                    >
-                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '10px', textAlign: 'left' }}>
-                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
-                                                <label style={{ fontSize: '0.65rem', opacity: 0.6, fontWeight: '700' }}>CONTEÚDO DO SITE (CSV)</label>
-                                                <input 
-                                                    type="text" 
-                                                    className="form-input" 
-                                                    style={{ padding: '8px', fontSize: '0.75rem', borderRadius: '8px', width: '100%' }}
-                                                    value={content.config?.contentUrl || ''} 
-                                                    onChange={(e) => updateSheetConfig('contentUrl', e.target.value)} 
-                                                    placeholder="URL pública da aba Conteúdo (CSV)"
-                                                />
-                                            </div>
-                                            
-                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
-                                                <label style={{ fontSize: '0.65rem', opacity: 0.6, fontWeight: '700' }}>COLEÇÕES/CATEGORIAS (CSV)</label>
-                                                <input 
-                                                    type="text" 
-                                                    className="form-input" 
-                                                    style={{ padding: '8px', fontSize: '0.75rem', borderRadius: '8px', width: '100%' }}
-                                                    value={content.config?.categoriesUrl || ''} 
-                                                    onChange={(e) => updateSheetConfig('categoriesUrl', e.target.value)} 
-                                                    placeholder="URL pública da aba Categorias (CSV)"
-                                                />
-                                            </div>
-
-                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
-                                                <label style={{ fontSize: '0.65rem', opacity: 0.6, fontWeight: '700' }}>PRODUTOS (CSV)</label>
-                                                <input 
-                                                    type="text" 
-                                                    className="form-input" 
-                                                    style={{ padding: '8px', fontSize: '0.75rem', borderRadius: '8px', width: '100%' }}
-                                                    value={content.config?.productsUrl || ''} 
-                                                    onChange={(e) => updateSheetConfig('productsUrl', e.target.value)} 
-                                                    placeholder="URL pública da aba Produtos (CSV)"
-                                                />
-                                            </div>
-                                            
-                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
-                                                <label style={{ fontSize: '0.65rem', opacity: 0.6, fontWeight: '700' }}>APPS SCRIPT URL (POST)</label>
-                                                <input 
-                                                    type="text" 
-                                                    className="form-input" 
-                                                    style={{ padding: '8px', fontSize: '0.75rem', borderRadius: '8px', width: '100%' }}
-                                                    value={content.config?.scriptUrl || ''} 
-                                                    onChange={(e) => updateSheetConfig('scriptUrl', e.target.value)} 
-                                                    placeholder="URL do Web App do Apps Script"
-                                                />
-                                            </div>
-                                            <p style={{ fontSize: '0.6rem', opacity: 0.5, lineHeight: '1.3' }}>
-                                                Nota: As planilhas do Google devem ser publicadas na web como "Valores separados por vírgula (.csv)".
-                                            </p>
-                                        </div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
-
-                        {/* Backup de Código JS */}
-                        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '0.75rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                            <span style={{ fontSize: '0.65rem', opacity: 0.6, textAlign: 'left', fontWeight: 'bold' }}>BACKUP MOCK (JS)</span>
-                            <button className="btn-outline" onClick={handleExport} style={{ fontSize: '0.75rem', justifyContent: 'center' }}>
-                                Baixar storeConfig.js
-                            </button>
-
-                            <button className="btn-outline" onClick={copyToClipboard} style={{ fontSize: '0.75rem', justifyContent: 'center' }}>
-                                {copied ? <Check size={16} /> : <Copy size={16} />}
-                                {copied ? 'Copiado!' : 'Copiar Config JS'}
-                            </button>
-                        </div>
-
-                        <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '0.5rem' }}>
                             <button className="btn-danger" onClick={logout} style={{ width: '100%' }}>
                                 <LogOut size={18} />
                                 Encerrar Sessão
