@@ -311,4 +311,70 @@ html, body {
     .mobile-only {
         display: none !important;
     }
-}
+}
+
+/* EditableImage Component Styles */
+.editable-image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: hidden;
+}
+
+.editable-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.editable-image-container:hover .editable-image-overlay {
+    opacity: 1;
+}
+
+.editable-image-btn {
+    background: var(--secondary-accent);
+    color: #000;
+    padding: 0.75rem 1.25rem;
+    border-radius: 50px;
+    border: none;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
+.editable-image-btn:hover {
+    transform: scale(1.05);
+}
+
+.file-upload-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed rgba(255, 255, 255, 0.1);
+    padding: 2.5rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.file-upload-label:hover {
+    border-color: var(--secondary-accent);
+    background: rgba(255, 255, 255, 0.05);
+}
+

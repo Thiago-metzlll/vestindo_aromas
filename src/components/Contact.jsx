@@ -4,11 +4,12 @@ import { storeConfig } from '../data/storeConfig';
 import EditableText from './EditableText';
 import { Phone, Mail, MapPin, Instagram } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import { faWhatsapp, faInstagram } from '@fortawesome/free-brands-svg-icons';
 
 const byPrefixAndName = {
     fab: {
-        whatsapp: faWhatsapp
+        whatsapp: faWhatsapp,
+        instagram: faInstagram
     }
 };
 
@@ -20,12 +21,31 @@ const Contact = () => {
     const handleContactUpdate = (field, value) => {
         const newConfig = { ...config };
         newConfig.contact = { ...newConfig.contact, [field]: value };
+        
+        if (field === 'phone') {
+            const cleanNumber = value.replace(/\D/g, '');
+            if (cleanNumber) {
+                let targetNumber = cleanNumber;
+                if (cleanNumber.length === 10 || cleanNumber.length === 11) {
+                    targetNumber = '55' + cleanNumber;
+                }
+                newConfig.contact.whatsapp = `https://wa.me/${targetNumber}`;
+            }
+        }
+        
         updateConfig(newConfig);
     };
 
     const handleWhatsAppClick = () => {
         const message = `Olá! Vim através do site Vestindo Aromas.`;
         window.open(contact.whatsapp + `?text=${encodeURIComponent(message)}`, '_blank');
+    };
+
+    const handleInstagramClick = () => {
+        const handle = (contact.instagram || '').replace('@', '').trim();
+        if (handle) {
+            window.open(`https://instagram.com/${handle}`, '_blank');
+        }
     };
 
     return (
@@ -166,6 +186,38 @@ const Contact = () => {
                                 >
                                     <FontAwesomeIcon icon={byPrefixAndName.fab['whatsapp']} size="lg" />
                                     Conversar pelo WhatsApp
+                                </button>
+
+                                <button
+                                    onClick={handleInstagramClick}
+                                    className="btn-primary"
+                                    style={{
+                                        width: '100%',
+                                        padding: '1.2rem',
+                                        fontSize: '1rem',
+                                        background: 'linear-gradient(135deg, #C13584 0%, #E1306C 50%, #F77737 100%)',
+                                        color: 'white',
+                                        border: 'none',
+                                        borderRadius: '8px',
+                                        cursor: 'pointer',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        gap: '12px',
+                                        fontWeight: 600,
+                                        transition: 'transform 0.2s, box-shadow 0.2s'
+                                    }}
+                                    onMouseEnter={(e) => {
+                                        e.currentTarget.style.transform = 'translateY(-2px)';
+                                        e.currentTarget.style.boxShadow = '0 8px 20px rgba(225, 48, 108, 0.25)';
+                                    }}
+                                    onMouseLeave={(e) => {
+                                        e.currentTarget.style.transform = 'translateY(0)';
+                                        e.currentTarget.style.boxShadow = 'none';
+                                    }}
+                                >
+                                    <FontAwesomeIcon icon={byPrefixAndName.fab['instagram']} size="lg" />
+                                    Seguir no Instagram
                                 </button>
                             </div>
                         </div>

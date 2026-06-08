@@ -38,68 +38,119 @@ export default function EditableImage({
     };
 
     return (
-        <div className={`relative group ${containerClassName}`} style={{ width: '100%', height: '100%' }}>
+        <div className={`editable-image-container ${containerClassName}`}>
             {src ? (
                 <img 
                     src={src} 
                     alt={alt} 
-                    className={`${className} transition-all duration-300 ${showInput ? 'blur-sm' : ''}`} 
-                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    className={className} 
+                    style={{ 
+                        width: '100%', 
+                        height: '100%', 
+                        objectFit: 'cover',
+                        transition: 'all 0.3s ease',
+                        filter: showInput ? 'blur(4px)' : 'none'
+                    }}
                 />
             ) : (
-                <div className={`${className} bg-white/5 border border-dashed border-white/20 flex items-center justify-center min-h-[150px] text-gray-500 font-body text-xs uppercase`}>
+                <div 
+                    className={className}
+                    style={{
+                        background: 'rgba(255,255,255,0.05)',
+                        border: '1px dashed rgba(255,255,255,0.2)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        minHeight: '150px',
+                        color: '#a0a0a0',
+                        fontFamily: 'var(--font-body)',
+                        fontSize: '0.75rem',
+                        textTransform: 'uppercase'
+                    }}
+                >
                     Sem imagem
                 </div>
             )}
             
             <div 
-                className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                style={{ cursor: 'pointer' }}
+                className="editable-image-overlay"
                 onClick={(e) => {
                     e.stopPropagation();
                     setShowInput(true);
                 }}
             >
-                <div
-                    className="bg-[var(--secondary-accent)] text-black p-4 rounded-full shadow-xl hover:scale-105 transition-transform flex items-center gap-2"
-                    title="Alterar imagem"
-                >
+                <div className="editable-image-btn" title="Alterar imagem">
                     <Upload size={18} />
                     <span style={{ fontSize: '0.75rem', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '1px' }}>Alterar</span>
                 </div>
             </div>
 
             {showInput && (
-                <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4">
+                <div style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    zIndex: 10000,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '1rem'
+                }}>
                     <div 
-                        className="fixed inset-0 bg-black/80 backdrop-blur-sm" 
+                        style={{
+                            position: 'fixed',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            background: 'rgba(0, 0, 0, 0.8)',
+                            backdropFilter: 'blur(4px)',
+                            zIndex: -1
+                        }}
                         onClick={() => setShowInput(false)}
                     />
                     
                     <div 
-                        className="relative glass-card p-6 shadow-2xl w-full max-w-md border border-[var(--secondary-accent)] animate-in fade-in zoom-in duration-200"
-                        style={{ background: 'rgba(15, 15, 15, 0.95)', color: 'white' }}
+                        className="glass-card"
+                        style={{ 
+                            position: 'relative', 
+                            padding: '2rem', 
+                            width: '100%', 
+                            maxWidth: '450px', 
+                            border: '1px solid var(--secondary-accent)', 
+                            background: 'rgba(15, 15, 15, 0.95)', 
+                            color: 'white',
+                            boxShadow: '0 20px 40px rgba(0,0,0,0.5)',
+                            borderRadius: '24px'
+                        }}
                     >
                         {/* Header */}
-                        <div className="flex justify-between items-center mb-6">
-                            <h3 style={{ color: 'var(--secondary-accent)', fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 'bold' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                            <h3 style={{ color: 'var(--secondary-accent)', fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 'bold', margin: 0 }}>
                                 Alterar Imagem
                             </h3>
                             <button 
                                 onClick={() => setShowInput(false)} 
-                                style={{ background: 'none', border: 'none', color: '#a0a0a0', cursor: 'pointer' }}
-                                className="hover:text-white transition-colors"
+                                style={{ background: 'none', border: 'none', color: '#a0a0a0', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
                             >
                                 <X size={24} />
                             </button>
                         </div>
 
                         {/* Tabs */}
-                        <div className="flex gap-2 mb-6" style={{ background: 'rgba(255,255,255,0.02)', padding: '4px', borderRadius: '8px' }}>
+                        <div style={{ display: 'flex', gap: '8px', marginBottom: '1.5rem', background: 'rgba(255,255,255,0.02)', padding: '4px', borderRadius: '8px' }}>
                             <button
                                 onClick={() => setTab('url')}
-                                className="flex-1 text-xs py-2 rounded font-body uppercase transition-all"
                                 style={{
+                                    flex: 1,
+                                    fontSize: '0.75rem',
+                                    padding: '8px 0',
+                                    borderRadius: '4px',
+                                    fontFamily: 'var(--font-body)',
+                                    textTransform: 'uppercase',
+                                    transition: 'all 0.2s',
                                     background: tab === 'url' ? 'var(--secondary-accent)' : 'transparent',
                                     color: tab === 'url' ? 'black' : '#a0a0a0',
                                     fontWeight: 'bold',
@@ -111,8 +162,14 @@ export default function EditableImage({
                             </button>
                             <button
                                 onClick={() => setTab('file')}
-                                className="flex-1 text-xs py-2 rounded font-body uppercase transition-all"
                                 style={{
+                                    flex: 1,
+                                    fontSize: '0.75rem',
+                                    padding: '8px 0',
+                                    borderRadius: '4px',
+                                    fontFamily: 'var(--font-body)',
+                                    textTransform: 'uppercase',
+                                    transition: 'all 0.2s',
                                     background: tab === 'file' ? 'var(--secondary-accent)' : 'transparent',
                                     color: tab === 'file' ? 'black' : '#a0a0a0',
                                     fontWeight: 'bold',
@@ -125,7 +182,7 @@ export default function EditableImage({
                         </div>
 
                         {tab === 'url' ? (
-                            <div className="space-y-4">
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                                     <label style={{ fontSize: '0.7rem', color: '#a0a0a0', textTransform: 'uppercase', letterSpacing: '1px' }}>Cole a URL da imagem aqui</label>
                                     <input
@@ -135,24 +192,23 @@ export default function EditableImage({
                                         onChange={(e) => setUrlInput(e.target.value)}
                                         onKeyDown={(e) => e.key === 'Enter' && handleUrlSave()}
                                         className="form-input"
-                                        style={{ width: '100%', padding: '0.8rem', background: 'rgba(255,255,255,0.05)' }}
+                                        style={{ width: '100%', padding: '0.8rem', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', border: '1px solid #333', color: 'white' }}
                                         autoFocus
                                     />
                                 </div>
                                 <button
                                     onClick={handleUrlSave}
-                                    className="btn-primary w-full"
-                                    style={{ marginTop: '1.5rem', width: '100%' }}
+                                    className="btn-primary"
+                                    style={{ width: '100%' }}
                                 >
                                     Salvar Alteração
                                 </button>
                             </div>
                         ) : (
-                            <div className="space-y-4" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                                 <label
                                     htmlFor="file-upload"
-                                    className="flex flex-col items-center justify-center border-2 border-dashed border-white/10 p-10 rounded-lg cursor-pointer hover:border-[var(--secondary-accent)] hover:bg-white/5 transition-all"
-                                    style={{ borderRadius: '12px', border: '1px dashed rgba(255,255,255,0.2)' }}
+                                    className="file-upload-label"
                                 >
                                     <Upload size={36} style={{ color: '#666', marginBottom: '12px' }} />
                                     <span style={{ fontSize: '0.8rem', fontWeight: 'bold', textTransform: 'uppercase', color: '#a0a0a0' }}>Selecionar arquivo</span>
@@ -164,7 +220,7 @@ export default function EditableImage({
                                     onChange={handleFileUpload}
                                     style={{ display: 'none' }}
                                 />
-                                <p style={{ fontSize: '0.65rem', color: 'var(--secondary-accent)', textAlign: 'center', marginTop: '10px' }}>
+                                <p style={{ fontSize: '0.65rem', color: 'var(--secondary-accent)', textAlign: 'center', marginTop: '10px', lineHeight: '1.4' }}>
                                     Nota: Uploads locais convertem a imagem para Base64. Use links da web se preferir planilhas menores.
                                 </p>
                             </div>
