@@ -46,7 +46,11 @@ const Products = () => {
     };
 
     const activeCategory = categories.find(c => normalize(c.id) === normalize(activeTab));
-    const whatsapp = config.contact?.whatsapp?.replace('https://wa.me/', '') || '';
+    
+    // Calcula o número do WhatsApp dinamicamente a partir do telefone de contato para evitar descompasso
+    const rawPhone = config.contact?.phone || '';
+    const cleanPhone = rawPhone.replace(/\D/g, '');
+    const whatsapp = (cleanPhone.length === 10 || cleanPhone.length === 11) ? ('55' + cleanPhone) : cleanPhone;
 
     return (
         <section id="catalogo" style={{ padding: '120px 0', background: 'var(--bg-secondary)' }}>

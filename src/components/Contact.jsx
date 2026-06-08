@@ -37,8 +37,11 @@ const Contact = () => {
     };
 
     const handleWhatsAppClick = () => {
+        const rawPhone = contact.phone || '';
+        const cleanPhone = rawPhone.replace(/\D/g, '');
+        const targetNumber = (cleanPhone.length === 10 || cleanPhone.length === 11) ? ('55' + cleanPhone) : cleanPhone;
         const message = `Olá! Vim através do site Vestindo Aromas.`;
-        window.open(contact.whatsapp + `?text=${encodeURIComponent(message)}`, '_blank');
+        window.open(`https://wa.me/${targetNumber}?text=${encodeURIComponent(message)}`, '_blank');
     };
 
     const handleInstagramClick = () => {
