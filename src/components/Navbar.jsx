@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAdmin } from '../context/AdminContext';
 import { storeConfig } from '../data/storeConfig';
 import EditableText from './EditableText';
-import { Search, Menu } from 'lucide-react';
+import { Search, Menu, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Navbar = () => {
     const { tempConfig, updateConfig } = useAdmin();
     const config = tempConfig || storeConfig;
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const handleUpdate = (field, value) => {
         updateConfig({ ...config, [field]: value });
@@ -26,7 +28,21 @@ const Navbar = () => {
         }}>
             <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '1rem' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
-                    <Menu className="mobile-only" size={22} style={{ flexShrink: 0 }} />
+                    {isMobileMenuOpen ? (
+                        <X 
+                            className="mobile-only" 
+                            size={22} 
+                            style={{ flexShrink: 0, cursor: 'pointer', color: 'var(--secondary-accent)' }} 
+                            onClick={() => setIsMobileMenuOpen(false)} 
+                        />
+                    ) : (
+                        <Menu 
+                            className="mobile-only" 
+                            size={22} 
+                            style={{ flexShrink: 0, cursor: 'pointer' }} 
+                            onClick={() => setIsMobileMenuOpen(true)} 
+                        />
+                    )}
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', overflow: 'hidden' }}>
                         <img 
                             src="/logo.png" 
@@ -76,6 +92,42 @@ const Navbar = () => {
 
                 </div>
             </div>
+
+            {/* Mobile Menu Dropdown */}
+            <AnimatePresence>
+                {isMobileMenuOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.25, ease: 'easeInOut' }}
+                        style={{
+                            overflow: 'hidden',
+                            width: '100%',
+                            background: 'rgba(10, 10, 10, 0.96)',
+                            backdropFilter: 'blur(20px)',
+                            borderBottom: '1px solid rgba(255,255,255,0.08)'
+                        }}
+                    >
+                        <div style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '1.2rem',
+                            padding: '1.5rem 5%',
+                            textTransform: 'uppercase',
+                            fontSize: '0.9rem',
+                            fontWeight: '600',
+                            letterSpacing: '1px'
+                        }}>
+                            <a href="#inicio" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Início</a>
+                            <a href="#colecoes" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Coleções</a>
+                            <a href="#catalogo" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Catálogo</a>
+                            <a href="#sobre" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Sobre</a>
+                            <a href="#contato" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Contato</a>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </nav>
     );
 };
