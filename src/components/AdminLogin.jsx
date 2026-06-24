@@ -112,9 +112,7 @@ const AdminLogin = () => {
                                     Entrar no Painel
                                 </button>
 
-                                <p style={{ fontSize: '0.7rem', opacity: 0.5, textAlign: 'center', marginTop: '1.5rem' }}>
-                                    Dica: a senha padrão é admin123 (criptografada com SHA-256)
-                                </p>
+
                             </form>
                         </motion.div>
                     </motion.div>
