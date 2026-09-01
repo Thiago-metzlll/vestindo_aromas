@@ -13,20 +13,6 @@ npm run dev
 
 O projeto não utiliza arquivos `.env`. Toda a configuração e os dados do site são consumidos e salvos diretamente no Google Sheets.
 
-### 1. Alterar a Senha do Admin (Opcional)
-
-A senha padrão do painel pode ser alterada em `src/utils/security.js`.
-
-### 2. Configure o WhatsApp
-
-No arquivo `src/data/storeConfig.js` ou diretamente pelo Painel Admin no site (salvando na planilha), atualize as informações de contato:
-
-```javascript
-contact: {
-    phone: "(11) 99999-9999",
-    whatsapp: "https://wa.me/5511999999999", // Formato: 55 + DDD + número
-}
-```
 
 ##  Funcionalidades
 
@@ -43,7 +29,7 @@ Para acessar o painel admin:
 3. Edite os textos clicando neles
 4. As alterações são salvas na planilha
 
-## 🛠️ Tecnologias
+##  Tecnologias
 
 - **React 19** - Framework frontend
 - **Vite** - Build tool rápido
