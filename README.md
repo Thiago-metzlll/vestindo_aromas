@@ -2,14 +2,14 @@
 
 Landing page moderna para loja de moda e perfumaria com painel administrativo.
 
-## 🚀 Instalação
+##  Instalação
 
 ```bash
 npm install
 npm run dev
 ```
 
-## 🔐 Configuração
+##  Configuração
 
 O projeto não utiliza arquivos `.env`. Toda a configuração e os dados do site são consumidos e salvos diretamente no Google Sheets.
 
@@ -28,18 +28,17 @@ contact: {
 }
 ```
 
-## 📋 Funcionalidades
+##  Funcionalidades
 
-✅ **Painel Admin** - Edição de conteúdo em tempo real
-✅ **Contato Rápido** - Integração direta com WhatsApp e E-mail
-✅ **Tema Dark/Light** - Alternância de temas
-✅ **Design Glassmorphism** - Estética moderna e premium
+-  **Painel Admin** - Edição de conteúdo em tempo real
+-  **Contato Rápido** - Integração direta com WhatsApp e E-mail
+- **Tema Dark/Light** - Alternância de temas
 
-## 🎨 Painel Administrativo
+##  Painel Administrativo
 
 Para acessar o painel admin:
 
-1. Procure o pequeno ícone de cadeado (🔒) no canto inferior direito
+1. Procure o pequeno ícone de cadeado no canto inferior direito
 2. Digite a senha configurada em `src/utils/security.js`
 3. Edite os textos clicando neles
 4. As alterações são salvas na planilha
@@ -52,12 +51,12 @@ Para acessar o painel admin:
 - **Lucide React** - Ícones modernos
 - **Google Sheets API** - Sincronização em tempo real de produtos e conteúdos
 
-## 📱 Responsividade
+## Responsividade
 
 A landing page é responsiva e funciona em:
-- 📱 Mobile
-- 💻 Desktop
-- 🖥️ Tablets
+-  Mobile
+-  Desktop
+-  Tablets
 
 ## Escopo e limitações
 
